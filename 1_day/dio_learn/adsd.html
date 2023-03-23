@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" type="image/png" href="assets/img/fav.png" />
+<link rel="shortcut icon" type="image/png" href="assets/img/fav.png" />
+<link rel="apple-touch-icon" href="assets/img/fav.png">
+<meta name="theme-color" content="#f2fdff" />
+<meta name='ir-site-verification-token' value='-381179986' />
+<base href="https://www.fluttercampus.com/" />
+<title>How to Get Plain Response from Dio Request in Flutter</title>
+<link rel="stylesheet" href="static/fawesome/css/all.min.css" />
+<meta property="og:title" content="How to Get Plain Response from Dio Request in Flutter"><meta property="og:image" content="https://www.fluttercampus.com/img/uploads/web/2022/07/8e2cfdc275761edc592f73a076197c33.webp"><meta name="description" content="In this example, we are going to show you how to get a non-encoded plain text response from the Dio request in Flutter. By default, Dio encodes the JSON response from REST API as a response."><meta property="og:description" content="In this example, we are going to show you how to get a non-encoded plain text response from the Dio request in Flutter. By default, Dio encodes the JSON response from REST API as a response.">
+<link rel="canonical" href="https://www.fluttercampus.com/guide/311/plain-response-dio/" />
+<meta property="og:url" content="https://www.fluttercampus.com/guide/311/plain-response-dio/" />
+<meta property="og:site_name" content="Flutter Campus" />
+<meta property="og:type" content="website" />
+</head>
+<body>
+<style>
+        body, button, input, optgroup, select, textarea, .uk-h1, .uk-h2, .uk-h3, .uk-h4, .uk-h5, .uk-h6, .uk-heading-2xlarge, .uk-heading-large, .uk-heading-medium, .uk-heading-small, .uk-heading-xlarge, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Source Sans Pro', sans-serif !important;}
+       
+        .fa, .fas, .fab, .far{margin-right:8px !important;}
+        .mr{margin-right:14px !important;}
+        .outerbox{margin:0px auto;max-width:1400px;}
+        form .label{font-weight:normal !important;}
+        .widthfull{width:100%;}
+
+        .mybadge{background:#29B6F6;color:#fff;border-radius:50%;padding:1px 3px;font-size:13px;min-width:22px;
+               text-align:center;}
+        .mybadge1{background:#999;color:#fff;border-radius:50%;padding:2px 5px;font-size:14px;}
+        .socialbutton{border:0px !important;box-shadow:0px 1px 5px 0px rgba(0,0,0,0.15);margin:3px;}
+
+        pre .number {padding: .25rem 0rem !important;margin-right:0px !important;}
+        pre{padding: 1em !important;margin: 0.5em 0 !important;}
+        
+        .qeditor{min-height:400px !important;}
+        h1{font-size:35px;color:#333;}
+        h2{font-size:25px;color:#333;}
+        h3{font-size:18px;color:#333;}
+        h4{font-size:16px;color:#333;}
+        a{text-decoration:none !important;}
+        .pull-right{float:right;}
+
+
+        .uk-position-small {background:rgba(255,255,255,0.8);padding-top:10px;padding-bottom:10px;
+              font-size:15px;line-height:30px;
+         text-align:center;color:#888 !important;}
+         .uk-position-small i{display:inline-block;margin-right:0px;}
+
+        .uk-position-small svg{display:none;}
+        .uk-position-center-left{border-radius:20px 50px 50px 20px;padding-right:10px;
+            box-shadow: 1px 2px 8px -1px rgba(0,0,0,.2);margin-left:0px;}
+        .uk-position-center-right{border-radius:50px 20px 20px 50px;padding-right:5px;margin-right:0px;padding-left:20px;
+        box-shadow: 1px 2px 8px -1px rgba(0,0,0,.2);}
+
+        .uk-card-primary.uk-card-body .uk-h1, .uk-card-primary.uk-card-body .uk-h2, .uk-card-primary.uk-card-body .uk-h3, .uk-card-primary.uk-card-body .uk-h4, .uk-card-primary.uk-card-body .uk-h5, .uk-card-primary.uk-card-body .uk-h6, .uk-card-primary.uk-card-body .uk-heading-2xlarge, .uk-card-primary.uk-card-body .uk-heading-large, .uk-card-primary.uk-card-body .uk-heading-medium, .uk-card-primary.uk-card-body .uk-heading-small, .uk-card-primary.uk-card-body .uk-heading-xlarge, .uk-card-primary.uk-card-body h1, .uk-card-primary.uk-card-body h2, .uk-card-primary.uk-card-body h3, .uk-card-primary.uk-card-body h4, .uk-card-primary.uk-card-body h5, .uk-card-primary.uk-card-body h6, .uk-card-primary>:not([class*=uk-card-media]) .uk-h1, .uk-card-primary>:not([class*=uk-card-media]) .uk-h2, .uk-card-primary>:not([class*=uk-card-media]) .uk-h3, .uk-card-primary>:not([class*=uk-card-media]) .uk-h4, .uk-card-primary>:not([class*=uk-card-media]) .uk-h5, .uk-card-primary>:not([class*=uk-card-media]) .uk-h6, .uk-card-primary>:not([class*=uk-card-media]) .uk-heading-2xlarge, .uk-card-primary>:not([class*=uk-card-media]) .uk-heading-large, .uk-card-primary>:not([class*=uk-card-media]) .uk-heading-medium, .uk-card-primary>:not([class*=uk-card-media]) .uk-heading-small, .uk-card-primary>:not([class*=uk-card-media]) .uk-heading-xlarge, .uk-card-primary>:not([class*=uk-card-media]) h1, .uk-card-primary>:not([class*=uk-card-media]) h2, .uk-card-primary>:not([class*=uk-card-media]) h3, .uk-card-primary>:not([class*=uk-card-media]) h4, .uk-card-primary>:not([class*=uk-card-media]) h5, .uk-card-primary>:not([class*=uk-card-media]) h6, .uk-card-secondary.uk-card-body .uk-h1, .uk-card-secondary.uk-card-body .uk-h2, .uk-card-secondary.uk-card-body .uk-h3, .uk-card-secondary.uk-card-body .uk-h4, .uk-card-secondary.uk-card-body .uk-h5, .uk-card-secondary.uk-card-body .uk-h6, .uk-card-secondary.uk-card-body .uk-heading-2xlarge, .uk-card-secondary.uk-card-body .uk-heading-large, .uk-card-secondary.uk-card-body .uk-heading-medium, .uk-card-secondary.uk-card-body .uk-heading-small, .uk-card-secondary.uk-card-body .uk-heading-xlarge, .uk-card-secondary.uk-card-body h1, .uk-card-secondary.uk-card-body h2, .uk-card-secondary.uk-card-body h3, .uk-card-secondary.uk-card-body h4, .uk-card-secondary.uk-card-body h5, .uk-card-secondary.uk-card-body h6, .uk-card-secondary>:not([class*=uk-card-media]) .uk-h1, .uk-card-secondary>:not([class*=uk-card-media]) .uk-h2, .uk-card-secondary>:not([class*=uk-card-media]) .uk-h3, .uk-card-secondary>:not([class*=uk-card-media]) .uk-h4, .uk-card-secondary>:not([class*=uk-card-media]) .uk-h5, .uk-card-secondary>:not([class*=uk-card-media]) .uk-h6, .uk-card-secondary>:not([class*=uk-card-media]) .uk-heading-2xlarge, .uk-card-secondary>:not([class*=uk-card-media]) .uk-heading-large, .uk-card-secondary>:not([class*=uk-card-media]) .uk-heading-medium, .uk-card-secondary>:not([class*=uk-card-media]) .uk-heading-small, .uk-card-secondary>:not([class*=uk-card-media]) .uk-heading-xlarge, .uk-card-secondary>:not([class*=uk-card-media]) h1, .uk-card-secondary>:not([class*=uk-card-media]) h2, .uk-card-secondary>:not([class*=uk-card-media]) h3, .uk-card-secondary>:not([class*=uk-card-media]) h4, .uk-card-secondary>:not([class*=uk-card-media]) h5, .uk-card-secondary>:not([class*=uk-card-media]) h6, .uk-light .uk-h1, .uk-light .uk-h2, .uk-light .uk-h3, .uk-light .uk-h4, .uk-light .uk-h5, .uk-light .uk-h6, .uk-light .uk-heading-2xlarge, .uk-light .uk-heading-large, .uk-light .uk-heading-medium, .uk-light .uk-heading-small, .uk-light .uk-heading-xlarge, .uk-light h1, .uk-light h2, .uk-light h3, .uk-light h4, .uk-light h5, .uk-light h6, .uk-offcanvas-bar .uk-h1, .uk-offcanvas-bar .uk-h2, .uk-offcanvas-bar .uk-h3, .uk-offcanvas-bar .uk-h4, .uk-offcanvas-bar .uk-h5, .uk-offcanvas-bar .uk-h6, .uk-offcanvas-bar .uk-heading-2xlarge, .uk-offcanvas-bar .uk-heading-large, .uk-offcanvas-bar .uk-heading-medium, .uk-offcanvas-bar .uk-heading-small, .uk-offcanvas-bar .uk-heading-xlarge, .uk-offcanvas-bar h1, .uk-offcanvas-bar h2, .uk-offcanvas-bar h3, .uk-offcanvas-bar h4, .uk-offcanvas-bar h5, .uk-offcanvas-bar h6, .uk-overlay-primary .uk-h1, .uk-overlay-primary .uk-h2, .uk-overlay-primary .uk-h3, .uk-overlay-primary .uk-h4, .uk-overlay-primary .uk-h5, .uk-overlay-primary .uk-h6, .uk-overlay-primary .uk-heading-2xlarge, .uk-overlay-primary .uk-heading-large, .uk-overlay-primary .uk-heading-medium, .uk-overlay-primary .uk-heading-small, .uk-overlay-primary .uk-heading-xlarge, .uk-overlay-primary h1, .uk-overlay-primary h2, .uk-overlay-primary h3, .uk-overlay-primary h4, .uk-overlay-primary h5, .uk-overlay-primary h6, .uk-section-primary:not(.uk-preserve-color) .uk-h1, .uk-section-primary:not(.uk-preserve-color) .uk-h2, .uk-section-primary:not(.uk-preserve-color) .uk-h3, .uk-section-primary:not(.uk-preserve-color) .uk-h4, .uk-section-primary:not(.uk-preserve-color) .uk-h5, .uk-section-primary:not(.uk-preserve-color) .uk-h6, .uk-section-primary:not(.uk-preserve-color) .uk-heading-2xlarge, .uk-section-primary:not(.uk-preserve-color) .uk-heading-large, .uk-section-primary:not(.uk-preserve-color) .uk-heading-medium, .uk-section-primary:not(.uk-preserve-color) .uk-heading-small, .uk-section-primary:not(.uk-preserve-color) .uk-heading-xlarge, .uk-section-primary:not(.uk-preserve-color) h1, .uk-section-primary:not(.uk-preserve-color) h2, .uk-section-primary:not(.uk-preserve-color) h3, .uk-section-primary:not(.uk-preserve-color) h4, .uk-section-primary:not(.uk-preserve-color) h5, .uk-section-primary:not(.uk-preserve-color) h6, .uk-section-secondary:not(.uk-preserve-color) .uk-h1, .uk-section-secondary:not(.uk-preserve-color) .uk-h2, .uk-section-secondary:not(.uk-preserve-color) .uk-h3, .uk-section-secondary:not(.uk-preserve-color) .uk-h4, .uk-section-secondary:not(.uk-preserve-color) .uk-h5, .uk-section-secondary:not(.uk-preserve-color) .uk-h6, .uk-section-secondary:not(.uk-preserve-color) .uk-heading-2xlarge, .uk-section-secondary:not(.uk-preserve-color) .uk-heading-large, .uk-section-secondary:not(.uk-preserve-color) .uk-heading-medium, .uk-section-secondary:not(.uk-preserve-color) .uk-heading-small, .uk-section-secondary:not(.uk-preserve-color) .uk-heading-xlarge, .uk-section-secondary:not(.uk-preserve-color) h1, .uk-section-secondary:not(.uk-preserve-color) h2, .uk-section-secondary:not(.uk-preserve-color) h3, .uk-section-secondary:not(.uk-preserve-color) h4, .uk-section-secondary:not(.uk-preserve-color) h5, .uk-section-secondary:not(.uk-preserve-color) h6, .uk-tile-primary:not(.uk-preserve-color) .uk-h1, .uk-tile-primary:not(.uk-preserve-color) .uk-h2, .uk-tile-primary:not(.uk-preserve-color) .uk-h3, .uk-tile-primary:not(.uk-preserve-color) .uk-h4, .uk-tile-primary:not(.uk-preserve-color) .uk-h5, .uk-tile-primary:not(.uk-preserve-color) .uk-h6, .uk-tile-primary:not(.uk-preserve-color) .uk-heading-2xlarge, .uk-tile-primary:not(.uk-preserve-color) .uk-heading-large, .uk-tile-primary:not(.uk-preserve-color) .uk-heading-medium, .uk-tile-primary:not(.uk-preserve-color) .uk-heading-small, .uk-tile-primary:not(.uk-preserve-color) .uk-heading-xlarge, .uk-tile-primary:not(.uk-preserve-color) h1, .uk-tile-primary:not(.uk-preserve-color) h2, .uk-tile-primary:not(.uk-preserve-color) h3, .uk-tile-primary:not(.uk-preserve-color) h4, .uk-tile-primary:not(.uk-preserve-color) h5, .uk-tile-primary:not(.uk-preserve-color) h6, .uk-tile-secondary:not(.uk-preserve-color) .uk-h1, .uk-tile-secondary:not(.uk-preserve-color) .uk-h2, .uk-tile-secondary:not(.uk-preserve-color) .uk-h3, .uk-tile-secondary:not(.uk-preserve-color) .uk-h4, .uk-tile-secondary:not(.uk-preserve-color) .uk-h5, .uk-tile-secondary:not(.uk-preserve-color) .uk-h6, .uk-tile-secondary:not(.uk-preserve-color) .uk-heading-2xlarge, .uk-tile-secondary:not(.uk-preserve-color) .uk-heading-large, .uk-tile-secondary:not(.uk-preserve-color) .uk-heading-medium, .uk-tile-secondary:not(.uk-preserve-color) .uk-heading-small, .uk-tile-secondary:not(.uk-preserve-color) .uk-heading-xlarge, .uk-tile-secondary:not(.uk-preserve-color) h1, .uk-tile-secondary:not(.uk-preserve-color) h2, .uk-tile-secondary:not(.uk-preserve-color) h3, .uk-tile-secondary:not(.uk-preserve-color) h4, .uk-tile-secondary:not(.uk-preserve-color) h5, .uk-tile-secondary:not(.uk-preserve-color) h6 {
+            color: #333 !important;
+        }
+
+        @media only screen and (max-width:768px) {
+            .myhidden{display:none}
+            .uk-position-center-left{border-radius:20px 50px 50px 20px;padding-right:4px;padding-left:5px;
+            box-shadow: 1px 2px 8px -1px rgba(0,0,0,0.2);margin-left:0px;}
+            .uk-position-center-right{border-radius:50px 20px 20px 50px;padding-right:0px;margin-right:0px;padding-left:10px;
+            box-shadow: 1px 2px 8px -1px rgba(0,0,0,0.2);}
+            .uk-position-small {background:rgba(255,255,255,1);padding-top:2px;padding-bottom:2px;
+              font-size:15px;line-height:30px;opacity: 0.5;
+              text-align:center;color:#888 !important;}
+        }
+
+        .card{box-shadow:0px 1px 5px 0px rgba(0,0,0,0.1) !important;}
+        a .card:hover{box-shadow:0px 1px 10px 0px rgba(0,0,0,0.15) !important;}
+
+        h1 a, h2 a, h3 a, p a{color:#069 !important;}
+        h1 a:hover, h2 a:hover, h3 a:hover, p a:hover{text-decoration:underline !important;}
+        .nocolor{color:#333 !important}
+        .nocolor:hover{text-decoration:none !important;}
+         nav ol,nav ul{padding-left:0px;}
+         .breadcrumb a{color:#069 !important;}
+
+        .mycontent{font-size:16px;}
+        .mycontent h1,h2,h3,h4,h5,h6{font-weight:bold;}
+        .mycontent h1, .mycontent h2{margin:15px 0px;}
+        .mycontent p{margin-bottom:25px;margin-top:10px;}
+        .mycontent a{text-decoration: underline !important;}
+        .mycontent code[class*="language-"], .mycontent pre[class*="language-"] {font-size:15px !important;}
+        .mycontent h2{font-size:23px;padding-top:15px;}
+        .mycontent .jumplink{color:#333 !important;text-decoration: none !important;}
+        .mycontent .jumplink i{color:#9FA8DA !important;font-size:18px;}
+
+        .navbar-dropdown {border-top:3px solid #f4f5f0;}
+        .mycontent img{max-width:100%;}
+        .mycontent td{padding:5px;}
+        .mycontent table{margin-bottom:20px;max-width:100%;}
+        .mycontent table, .mycontent th, .mycontent td {
+            border: 1px solid #ddd;
+        }
+        .mycontent ul, .mycontent ol{padding-left:50px !important;margin-bottom:20px;}
+        .mycontent blockquote{border-left:5px solid #999;padding:5px;font-size:15px;background:#eee;margin-bottom:20px;}
+        .mycontent blockquote p{margin-bottom:10px;}
+
+        .bottomnav{margin-top:0px;}
+        .bottomnav .button{display:block;text-align:left;height:auto !important;}
+        .bottomnav span{display:block !important;}
+        .bottomnav .navtop{font-weight:bold;font-size:18px;margin-bottom:5px;}
+        .bottomnav .navbottom{font-size:15px;padding-left:27px;}
+        .postnav .navtopa{font-size:16px;}
+
+        .brightnav{margin-top:0px;}
+        .brightnav .button{display:block;text-align:right;height:auto !important;}
+        .brightnav span{display:block !important;}
+        .brightnav .navtop{font-weight:bold;font-size:18px;margin-bottom:5px;}
+        .brightnav .navbottom{font-size:15px;padding-right:27px;}
+
+        @media only screen and (max-width:768px) {
+            
+            .mycontent p{margin-bottom:15px;margin-top:10px;font-size:14px !important;line-height:25px;}
+            .mycontent ul, .mycontent ol{font-size:14px !important;}
+            .mycontent h2{font-size:17px;}
+            .mycontent code[class*="language-"], .mycontent pre[class*="language-"] {font-size:12px !important;}
+        }
+
+        :not(pre)>code[class*=language-], pre[class*=language-] {
+            box-shadow: 0px 0px 10px 1px rgb(0 0 0 / 10%);
+        }
+
+
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	background: none;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 14px !important;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5 !important;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+	display:inline !important;
+	font-size:14px !important;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #9a6e3a;
+	/* This background color was intended by the author of this theme. */
+	background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function,
+.token.class-name {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+
+    </style>
+<div class="header" style="box-shadow: 0 3px 10px 0 rgba(0,0,0,0.08);background:#fff;">
+<div class="outerbox">
+<nav class="bd-navbar navbar" role="navigation" aria-label="main navigation" style="background:none;padding:0px 15px;padding-right:15px;">
+<div class="navbar-brand">
+<a class="navbar-item" href="home/" style="padding:0px;">
+<img src="img/logo_small.webp" height="35" width="217" style="padding:0px;max-height:35px;" alt="Flutter">
+</a>
+<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+<span aria-hidden="true"></span>
+<span aria-hidden="true"></span>
+<span aria-hidden="true"></span>
+</a>
+</div>
+<style>
+                 .navbar-item{
+                     font-size:18px;padding-left:25px;padding-right:10px;}
+                 .navbar-menu{margin-left:20px;}
+                 .navbar-start a{font-size:16px;padding:20px 15px;}
+
+                 @media only screen and (max-width:1023px) {
+                    .navbar-menu{margin-left:0px;box-shadow:none;}
+                    
+                    .navbar-menu .navbar-start a{
+                        padding:10px;
+                        box-shadow:0px 1px 5px 0px rgba(0,0,0,0.1);margin:5px;
+                        padding-left:20px;
+                    }
+
+                    .navbar-menu .navbar-end button{width:100% !important;}
+                    .navbar-brand img{padding:20px;}
+                 }
+                 
+            </style>
+<div id="navbarmain" class="navbar-menu">
+<div class="navbar-start">
+<a class="navbar-item" href="home/">
+<i class="fas fa-home" style="color:#0288D1;"></i>
+Home
+</a>
+<a href="tutorials/" class="navbar-item">
+Tutorials
+</a>
+<a href="guides/" class="navbar-item">
+How To Guides
+</a>
+<a href="templates/" class="navbar-item">
+<i class="fas fa-layer-group mr" style="color:#7B1FA2;"></i> App Templates
+</a>
+<a href="packages/" class="navbar-item">
+<i class="fas fa-box-open mr" style="color:#F57C00;"></i> Packages
+</a>
+<a href="blogs/" class="navbar-item">
+<i class="fas fa-cube mr" style="color:#0277BD;"></i> Blogs
+</a>
+</div>
+<div class="navbar-end">
+<div class="navbar-item has-dropdown is-hoverable is-hidden-mobile is-hidden-tablet-only">
+<a class="button is-primary is-rounded is-light" style="margin-top:13px;">
+<span> <strong><i class="far fa-user"></i> My Account</strong></span>
+<span class="icon is-small">
+<i class="fas fa-angle-down" aria-hidden="true"></i>
+</span>
+</a>
+<div class="navbar-dropdown">
+<a href="login/" class="dropdown-item">
+<strong>Log In</strong>
+</a>
+<hr class="dropdown-divider">
+<a href="signup/" class="dropdown-item">
+<strong>Sign Up</strong>
+</a>
+</div>
+</div>
+<div class="navbar-item" style="padding-left:10px;padding-right:0px;">
+<div class="buttons">
+<a class="button is-danger is-rounded is-light" href="apps/">
+<strong><i class="fas fa-mobile-alt"></i> Made With Flutter</strong>
+</a>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</div>
+</div>
+<style>
+    .leftside .card{box-shadow:0px 2px 6px 0px rgba(0,0,0,0.1) !important;}
+    .leftside .menulist ul ul a{color:#069;}
+    .mainbox{padding:0px 15px;}
+    .menulist .uk-accordion-title{font-size:16px;padding:0px;}
+    .menulist .card-content{padding:15px;}
+    .mainmenu li{border-bottom:1px solid #f4f5f0;padding-bottom:5px;margin-top:0px;}
+    .mainmenu li:last-child{border-bottom:0px;}
+    .uk-accordion>:nth-child(n+2) {margin-top:10px;}
+    .mainmenu li ul li{border-bottom:0px;}
+    .mainmenu li ul{padding-left:10px;border-left:1px solid #ddd;margin-left:10px;}
+    .mainmenu li ul li{margin-top:0px;padding:5px;}
+    .mainmenu .uk-accordion-content{margin-top:5px;}
+    .mainmenu .uk-open{border-bottom:0px;}
+    .uk-open > .uk-accordion-title::before {
+        content: "⌃";
+        background-image: none;
+        margin-top: 0px;
+        font-size: 20px;
+        color: #ddd;
+    }
+    .uk-accordion-title::before {
+            content: "⌄";
+            background-image: none;
+            font-size: 20px;
+            color: #ddd;
+        }
+
+    
+   .taglist .taglink{text-transform: capitalize !important;padding:0px 10px;color:#666;margin-bottom:10px;display:inline-block;
+   opacity:0.8;margin-bottom:15px;}
+   .taglist .taglink:first-child{color:#c62828;border-left:8px solid #c62828;}
+   .mycontent{margin-top:20px;font-size:17px;line-height:30px;}
+
+   @media only screen and (max-width:768px) {
+        .titlebox .title{font-size:18px;line-height:30px;}
+        .guidelist .subtitle{font-size:15px;margin-top:-15px !important;border-bottom:0px !important;margin-bottom:0px !important;}
+        .maincontentbox{padding:5px;padding-top:0px;}
+        .titlebox{padding:5px;padding-bottom:0px;padding-top:0px;}
+        .taglist .taglink{font-size:14px;}
+    }
+</style>
+<div class="outerbox" style="margin-top:30px;margin-bottom:10px;">
+<div class="mainbox">
+<div class="columns">
+<div class="column is-2">
+<div class="leftside" style="position:sticky;position:-webkit-sticky;top:20px;padding-top:0px;">
+<div class="widget">
+<div class="card" style="padding:15px 23px;">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6406136908234185" data-ad-slot="7960157947" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-7">
+<div class="contentbox">
+<div class="titlebox">
+<div class="taglist">
+<a class="taglink" href="guides/?tag=Dio">DIO</a>
+<a class="taglink" href="guides/?tag=REST+API"> REST API</a>
+</div>
+<h1 class="title is-4" style="margin-bottom:20px;">How to Get Plain Response from Dio Request in Flutter</h1>
+<div class="adbox">
+<div class="card adboxlargea" style="margin:0px auto;margin-bottom:20px;max-width:1200px;">
+<div style="padding:0px;min-height:280px;">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6406136908234185" data-ad-slot="3598037842" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+</div>
+</div>
+</div>
+</div>
+<div class="maincontentbox">
+<div class="mycontent">
+<p>In this example, we are going to show you how to get a non-encoded plain text response from the Dio request in Flutter. By default, Dio encodes the JSON response from REST API as a response. See the example below:</p>
+<p>Normal Dio Request:</p>
+<pre class="language-dart"><code>var dio = Dio();
+var res = await dio.get("https://www.fluttercampus.com/json.php");</code></pre>
+<p>Output:</p><div style='border-top:0px solid #ddd;border-bottom:0px solid #ddd;'><div class="card articlead1" style="margin-bottom:30px;">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6406136908234185" crossorigin="anonymous"></script>
+
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6406136908234185" data-ad-slot="9564578414" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+   </script></div>
+</div>
+<pre><span style="font-size: 15px;">{error: false, msg: Hello World, data: [Hari, Krishna, John]}</span></pre>
+<p>Here, Dio fetches the data from the URL, encodes it to the Flutter map, and returned the response data. You can get this response without encoding using the following code:</p>
+<pre class="language-dart"><code>var dio = Dio();
+var res = await dio.get("https://www.fluttercampus.com/json.php", 
+  options: Options( 
+    responseType: ResponseType.plain,
+  ));</code></pre>
+<p>Output:</p>
+<pre><span style="font-size: 15px;">{"error":false,"msg":"Hello World","data":["Hari","Krishna","John"]}</span></pre>
+<p>Here is the plain non-encoded plain JSON text from the REST API. You can get different response types by changing responseType at Options.</p>
+<h2 id="full-code-example"><a class="jumplink" href="https://www.fluttercampus.com/guide/311/plain-response-dio/#full-code-example" aria-hidden="true"><i class="fas fa-link"></i> Full Code Example:</a></h2>
+<pre class="language-dart"><code>import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+
+void main(){
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Home(),
+    );
+  }
+}
+
+class Home extends StatefulWidget{
+  @override
+  _HomeState createState() =&gt; _HomeState();
+}
+
+class _HomeState extends State&lt;Home&gt; { 
+
+  getData() async {
+     var dio = Dio();
+     var res = await dio.get("https://www.fluttercampus.com/json.php", 
+         options: Options( 
+            responseType: ResponseType.plain,
+         ));
+
+     if(res.statusCode == 200){
+
+        print("Connection successful");
+        print(res.data);
+        //encoded response:
+        //{error: false, msg: Hello World, data: [Hari, Krishna, John]}
+
+        //Non encoded plain response:
+        //{"error":false,"msg":"Hello World","data":["Hari","Krishna","John"]}
+     }else{
+       print("Error while connecting to server.");
+     }
+  }
+
+  @override
+  Widget build(BuildContext context) { 
+    return  Scaffold(
+          appBar: AppBar(
+            title: Text("REST API"),
+            backgroundColor: Colors.redAccent
+          ),
+          body: Container(
+            padding: EdgeInsets.only(top:20, left:20, right:20),
+            alignment: Alignment.topCenter,
+            child: Column(
+              children: [
+
+                 ElevatedButton(
+                  onPressed: () async {
+                     getData();
+                  }, 
+                  child: Text("Get Data")
+                ),
+                
+            ],)
+          )
+       );
+  }
+}</code></pre>
+<p>In this way, you can get a plain text response from Dio request in Flutter.</p><div style='border-top:0px solid #eee;border-bottom:0px solid #eee;padding:0px 0px;margin-bottom:0px;'><div class="card" style="margin-bottom:30px;">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6406136908234185" crossorigin="anonymous"></script>
+
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6406136908234185" data-ad-slot="4352716312" data-ad-format="auto"></ins>
+<script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+</div>
+</div> </div>
+<div class="sharebox is-hidden-mobile" style="margin-top:40px;margin-bottom:30px;">
+<span style="display:inline-block;margin-right:10px;margin-top:3px;
+                                 box-shadow:0px 1px 5px 1px rgba(0,0,0,0.1);padding-left:15px;padding-right:15px;
+                                 font-weight:600;" class="is-hidden-mobile button is-default is-light">Share This
+<i class="fas fa-share-alt" style="margin-left:10px;margin-right:0px !important;"></i></span>
+ <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fwww.fluttercampus.com%2Fguide%2F311%2Fplain-response-dio%2F&t=How+to+Get+Plain+Response+from+Dio+Request+in+Flutter" rel="nofollow" target="_blank" class='button is-default socialbutton'>
+<i class="fab fa-facebook-f" style="color:#0D47A1;"></i> Facebook
+</a>
+<a href="https://twitter.com/share?url=https%3A%2F%2Fwww.fluttercampus.com%2Fguide%2F311%2Fplain-response-dio%2F&amp;text=How+to+Get+Plain+Response+from+Dio+Request+in+Flutter&amp;hashtags=flutter" rel="nofollow" target="_blank" class='button is-default socialbutton'>
+<i class="fab fa-twitter" style="color:#29B6F6;"></i> Twitter
+</a>
+<a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.fluttercampus.com%2Fguide%2F311%2Fplain-response-dio%2F&title=How+to+Get+Plain+Response+from+Dio+Request+in+Flutter" rel="nofollow" target="_blank" class='button is-default socialbutton'>
+<i class="fab fa-reddit-alien"></i> Reddit
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.fluttercampus.com%2Fguide%2F311%2Fplain-response-dio%2F&title=How+to+Get+Plain+Response+from+Dio+Request+in+Flutter" rel="nofollow" target="_blank" class='button is-default socialbutton'>
+<i class="fab fa-linkedin-in" style="color:#1A237E;"></i> LinkedIn
+</a>
+<a href="https://pinterest.com/pin/create/link/?url=https%3A%2F%2Fwww.fluttercampus.com%2Fguide%2F311%2Fplain-response-dio%2F" rel="nofollow" target="_blank" class='button is-default socialbutton'>
+<i class="fab fa-pinterest" style="color:#b71c1c;"></i> Pinterest
+</a>
+</div>
+<div class="postnav" style="margin-bottom:20px;">
+<div class="columns">
+<div class="column is-6">
+<div class="bottomnav">
+<a href="guide/310/pick-image-gallery/">
+<div class="card" style="padding:10px;">
+<span class='navtopa' style="font-size:18px"><i class="fas fa-long-arrow-alt-left"></i>
+How to Pick Image from Gallery in Flutter</span>
+</div>
+</a>
+</div>
+</div>
+<div class="column is-6">
+<div class="brightnav" style="text-align:right;">
+<a href="guide/312/solve-get-dio-conflict/">
+<div class="card" style="padding:10px;font-size:18px;">
+<span class='navtopa' style="font-size:18px">[Solved] The name ’Response’ is defined in the libraries
+<i class="fas fa-long-arrow-alt-right" style="margin-right:0px;margin-left:10px;"></i></span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<style> 
+                               .related .maintitle{font-size:18px;margin-bottom:20px;}
+                               .mytitle{overflow: hidden;
+                                        font-size:17px;font-weight:bold;color:#069 !important;
+                                    margin-bottom:15px;margin-top:0px;line-height:27px;height:49px;overflow:hidden;}
+                                .mydetails{height:70px;overflow:hidden;}
+                                .mytask{padding:15px;}
+
+                                @media only screen and (max-width:768px) {
+                                    .guidelist .title{font-size:16px;}
+                                    .guidelist .subtitle{font-size:15px;margin-top:-15px !important;border-bottom:0px !important;margin-bottom:0px !important;}
+                                    .maincontentbox{padding:20px;padding-top:0px;}
+                                    .titlebox{padding:20px;padding-bottom:0px;padding-top:0px;}
+                                }
+                             </style>
+<div class="related">
+<h2 class="maintitle">More Guides for Flutter Developers:</h2>
+<div class="relatedbody">
+<div class="columns is-multiline is-gapless"><div class="column is-4">
+<div class="pitemone" style="margin-bottom:20px;padding:5px;">
+<a href="guide/44/how-to-request-single-or-multiple-permission-at-once-in-flutter-app/">
+<div class="card">
+
+<div class="card-image">
+<figure class="image  is-4by3 myimg">
+<img class="lazy" src="img/4by3.webp" data-src="img/uploads/web/2021/04/63923f49e5241343aa7acb6a06a751e7.webp" alt="How to Request Single or Multiple Permissions at Once in Flutter App" title="How to Request Single or Multiple Permissions at Once in Flutter App">
+</figure>
+</div>
+<div class="mytask">
+<h3 class="mytitle">
+How to Request Single or Multiple Permissions at Once in Flutter App </h3>
+<div class="content mydetails">
+Do you want to access the location or camera, or anything like that from the device? You need permission from the user first to perform such a task. Flutter - How to Request Single of Multiple Permission at Once </div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="column is-4">
+<div class="pitemone" style="margin-bottom:20px;padding:5px;">
+<a href="guide/312/solve-get-dio-conflict/">
+<div class="card">
+<div class="card-image">
+<figure class="image  is-4by3 myimg">
+<img class="lazy" src="img/4by3.webp" data-src="img/uploads/web/2022/07/b51a15f382ac914391a58850ab343b00.webp" alt="[Solved] The name ’Response’ is defined in the libraries" title="[Solved] The name ’Response’ is defined in the libraries">
+</figure>
+</div>
+<div class="mytask">
+<h3 class="mytitle">
+[Solved] The name ’Response’ is defined in the libraries </h3>
+<div class="content mydetails">
+In this example, we are going to show you how to solve ʺThe name ’Response’ is defined in the libraries ’package:dio/src/response.dartʺ or ʺError: ’Response’ is imported from both dio and get the packageʺ error. This is the conflict between Dio and Get packages for Response, FormData, and MultipartFile part. </div>
+</div>
+</div>
+</a>
+
+</div>
+</div>
+<div class="column is-4">
+<div class="pitemone" style="margin-bottom:20px;padding:5px;">
+<a href="guide/283/get-gyroscope-sensor-data-flutter/">
+<div class="card">
+<div class="card-image">
+<figure class="image  is-4by3 myimg">
+<img class="lazy" src="img/4by3.webp" data-src="img/uploads/web/2022/02/0188e8b8b014829e2fa0f430f0a95961.webp" alt="How to Get Gyroscope Sensor Data in Flutter App" title="How to Get Gyroscope Sensor Data in Flutter App">
+</figure>
+</div>
+<div class="mytask">
+<h3 class="mytitle">
+How to Get Gyroscope Sensor Data in Flutter App </h3>
+<div class="content mydetails">
+In this example, we are going to show you how to get data of the Gyroscope sensor of the device in the Flutter App. You can stream constantly the Gyroscope sensor data too. You will get X, Y, Z values which can be used to determine the device orientation. </div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="column is-4">
+<div class="pitemone" style="margin-bottom:20px;padding:5px;">
+<a href="guide/294/get-path-flutter/">
+<div class="card">
+<div class="card-image">
+<figure class="image  is-4by3 myimg">
+<img class="lazy" src="img/4by3.webp" data-src="img/uploads/web/2022/07/1c65cef3dfd1e00c0b03923a1c591db4.webp" alt="How to Get Path of App File System in Flutter" title="How to Get Path of App File System in Flutter">
+</figure>
+</div>
+<div class="mytask">
+<h3 class="mytitle">
+How to Get Path of App File System in Flutter </h3>
+<div class="content mydetails">
+In this post, we are going to show you how to get an App file system like a temporary directory and app document directory. Files system directories are important to read and write files from Flutter. </div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="column is-4">
+<div class="pitemone" style="margin-bottom:20px;padding:5px;">
+<a href="guide/39/how-to-show-date-picker-on-textfield-tap-and-get-formatted-date/">
+<div class="card">
+<div class="card-image">
+<figure class="image  is-4by3 myimg">
+<img class="lazy" src="img/4by3.webp" data-src="img/uploads/web/2021/03/f340f1b1f65b6df5b5e3f94d95b11daf.webp" alt="How to Show Date Picker on TextField Tap and Get Formatted Date in Flutter" title="How to Show Date Picker on TextField Tap and Get Formatted Date in Flutter">
+</figure>
+</div>
+<div class="mytask">
+<h3 class="mytitle">
+How to Show Date Picker on TextField Tap and Get Formatted Date in Flutter </h3>
+<div class="content mydetails">
+Are you making a form in a mobile app that has date input filed? Then look at the example below to learn how to implement a date picker on TextField() and TextFormFiled() widget so that whenever the user taps on the field and the date picker dialogue will appear. </div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="column is-4">
+<div class="pitemone" style="margin-bottom:20px;padding:5px;">
+<a href="guide/40/how-to-show-time-picker-on-textfield-tap-and-get-formatted-time-in-flutter/">
+<div class="card">
+<div class="card-image">
+<figure class="image  is-4by3 myimg">
+<img class="lazy" src="img/4by3.webp" data-src="img/uploads/web/2021/03/9188905e74c28e489b44e954ec0b9bca.webp" alt="How to Show Time Picker on TextField Tap and Get Formatted Time in Flutter" title="How to Show Time Picker on TextField Tap and Get Formatted Time in Flutter">
+</figure>
+</div>
+<div class="mytask">
+ <h3 class="mytitle">
+How to Show Time Picker on TextField Tap and Get Formatted Time in Flutter </h3>
+<div class="content mydetails">
+In this example, you are going to make a TextFiled or TextFormField, and whenever the user taps on that field, the time picker dialogue will appear. We will get the formatted time from the picker and set that output value to TextField and TextFormField. </div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="column is-4">
+<div class="pitemone" style="margin-bottom:20px;padding:5px;">
+<a href="guide/298/save-get-data-shared-preferences/">
+<div class="card">
+<div class="card-image">
+<figure class="image  is-4by3 myimg">
+<img class="lazy" src="img/4by3.webp" data-src="img/uploads/web/2022/07/905056c1ac1dad141560467e0a99e1cf.webp" alt="How to Save or Get Data on Shared Preferences in Flutter" title="How to Save or Get Data on Shared Preferences in Flutter">
+</figure>
+</div>
+<div class="mytask">
+<h3 class="mytitle">
+How to Save or Get Data on Shared Preferences in Flutter </h3>
+<div class="content mydetails">
+In this example, we are going to show you how to save data like string, integer, boolean, string list, and double value to shared preference in Flutter. Shared preference is a easiest method to save data values in Flutter. </div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="column is-4">
+<div class="pitemone" style="margin-bottom:20px;padding:5px;">
+<a href="guide/55/how-to-get-battery-level-charging-status-info-in-flutter-app/">
+<div class="card">
+<div class="card-image">
+<figure class="image  is-4by3 myimg">
+<img class="lazy" src="img/4by3.webp" data-src="img/uploads/web/2021/04/a8c88a0055f636e4a163a5e3d16adab7.webp" alt="How to Get Battery Level, Charging Status in Flutter" title="How to Get Battery Level, Charging Status in Flutter">
+</figure>
+</div>
+<div class="mytask">
+<h3 class="mytitle">
+How to Get Battery Level, Charging Status in Flutter </h3>
+<div class="content mydetails">
+In this guide, we are going to show you the easiest way to get Battery Information such as battery level, charging status, battery health, plugged status, and many more in Android and iOS. See the example below for deeper insight. </div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="column is-4">
+<div class="pitemone" style="margin-bottom:20px;padding:5px;">
+<a href="guide/101/how-to-get-current-formatted-date-and-time-on-flutter/">
+<div class="card">
+<div class="card-image">
+<figure class="image  is-4by3 myimg">
+<img class="lazy" src="img/4by3.webp" data-src="img/uploads/web/2021/08/8fecb20817b3847419bb3de39a609afe.webp" alt="How to Get Current Date and Time on Flutter" title="How to Get Current Date and Time on Flutter">
+</figure>
+</div>
+<div class="mytask">
+<h3 class="mytitle">
+How to Get Current Date and Time on Flutter </h3>
+<div class="content mydetails">
+In this example, we are going to show you the easiest way to get the current date and time on Flutter app with dart. We will also show you to get date and time with different kinds of formats as well. See below for more details. </div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div> </div>
+</div>
+<div class="commentbox">
+<style> 
+  .commentsouter{margin-top:20px;}
+  .commentstitle{font-size:18px;}
+  .allcomments{margin-top:30px;}
+  .commentmeta{padding-bottom:15px;border-bottom:0px solid #ddd;margin-top:15px;}
+</style>
+<div class="commentsouter">
+<h2 class="commentstitle">
+No any Comments on this Article
+<button class="button is-default pull-right hidden-mobile" type="button" uk-toggle="target: #addcommentmodel" onclick="addcomment('311', 'howto', '0');">
+<b><i class="far fa-comments"></i> Add Comment</b>
+</button>
+</h2>
+<div class="allcomments">
+</div>
+</div>
+
+<div id="addcommentmodel" uk-modal>
+<div class="uk-modal-dialog uk-modal-body" id="replybody">
+<div style="padding:30px;padding-top:20px;text-align:center;"><span style="font-size:50px;margin-bottom:15px;"><i class="fas fa-spin fa-spinner"></i></span><br />Please Wait...</div>
+</div>
+</div>
+<input type="hidden" id="ctrack" value="e7caf6237c62eabc54de2f026eeba22a">
+</div>
+</div>
+</div>
+</div>
+<style> 
+                     .rightside{border-left:0px solid #f4f5f0;}
+                     .recentpost a{display:block;margin-bottom:15px;}
+                   </style>
+<div class="column is-3">
+<div class="rightside" style="padding-bottom:0px;">
+<div class="widget">
+<style>
+         .cad{border:0px solid #FFCCBC;padding:0px;text-align:center;}
+         .cadtitle{font-size:20px;font-weight:bold;color:#6A1B9A;line-height:30px;padding-top:25px;}
+         .cadsubtitle{font-size:16px;margin-top:10px;margin-bottom:20px;color:#333;padding: 0px 10px;}
+         .adtask{margin-bottom:35px;margin-top:20px;}
+         .listbox{border-top:1px solid #eee;}
+         .listbox a{display:block;text-align:left;padding:10px 15px;border-bottom:1px solid #eee}
+         .listbox a span{float:right;background:#FFEBEE;color:#B71C1C;display:block;padding:3px 6px;border-radius:5px;border:1px solid #FFCDD2;}
+    </style>
+<div class="card" style="margin-top:0px;">
+<div class="card" style="padding:0px;">
+<div class="cad">
+<div class="cadtitle">
+<h2 style="font-size:22px;">Buy Popular Flutter Scripts</h2>
+</div>
+<div style="padding:20px 45px;padding-bottom:20px;">
+<img src="img/em.png" alt="envato markets" style="max-width:100%;" />
+</div>
+<div class="cadsubtitle">
+Buy Popular Flutter UI Kits, eCommerce, Restaurant Food Delivery Apps Scripts.
+</div>
+<div class="listbox">
+<a href="https://1.envato.market/kjWJo3" target="_blank" rel="_nofollow">
+StackFood Food Delivery App
+<span>$79</span>
+</a>
+<a href="https://1.envato.market/x957LR" target="_blank" rel="_nofollow">
+eShop Multi Vendor eCommerce App
+<span>$59</span>
+</a>
+<a href="https://1.envato.market/RynvWa" target="_blank" rel="_nofollow">
+FluxStore WooCommerce App
+<span>$79</span>
+</a>
+<a href="https://1.envato.market/MXKNkK" target="_blank" rel="_nofollow">
+Prokit Multi App Flutter UI Kit
+<span>$39</span>
+</a>
+<a href="https://1.envato.market/AojREx" target="_blank" rel="_nofollow">
+Cirilla Flutter App For Woocommerce
+<span>$59</span>
+</a>
+</div>
+<div class="adtask">
+<a href="https://1.envato.market/2rVrGg" target="_blank" rel="_nofollow" class="button is-rounded is-default is-medium ">
+ <b>Browse Flutter Scripts</b>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="rightside" style="position:sticky;position:-webkit-sticky;top:0;padding-top:20px;">
+<div class="widget">
+<div class="card" style="padding:15px;">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6406136908234185" data-ad-slot="3884337678" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script> 
+document.addEventListener('DOMContentLoaded', function() {
+	let cardToggles = document.getElementsByClassName('card-toggle');
+	for (let i = 0; i < cardToggles.length; i++) {
+		cardToggles[i].addEventListener('click', e => {
+			e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('myhidden');
+		});
+	}
+});
+</script> <style> 
+  @media only screen and (max-width:768px) {
+     .footer{font-size:14px;}
+  }
+  </style>
+<footer class="footer" style="margin-top:40px;padding:30px 15px;border-top:1px solid #eee;
+  background:#fff;">
+<div class="content has-text-centered">
+<p>
+<strong>Flutter Campus</strong> by <a href="https://www.merospark.com" targt="_blank" rel="nofollow" style="color:#069;">MeroSpark</a>. &copy; Copyright 2020,
+Made With <i class="far fa-heart" style="margin-left:10px;color:#d32f2f;"></i> For Flutter Community
+</p>
+<p>
+<a href="privacy/">Privacy Policy</a> |
+<a href="sitemap.xml">Sitemap</a> |
+<a href="feed/">Feed RSS</a> |
+<a href="https://feeds.feedburner.com/fluttercampus" target="_blank">Subscribe</a>
+<a href="https://twitter.com/CampusFlutter" rel='nofollow' target="_blank">Twitter</a> |
+<a href="https://www.facebook.com/campusflutter/" rel='nofollow' target="_blank">Facebook</a> |
+<a href="icons/">Flutter Icons</a>
+</p>
+</div>
+</footer>
+</body>
+</html>
