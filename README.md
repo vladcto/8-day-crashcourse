@@ -5,7 +5,7 @@ In this course i want to learn 14 **Flutter** packages in 8 day to expand my kno
 ## Packages plan:
 
 ### Navigations and **DIO**
-- [ ] **1 day** - `Dio` , `Navigator 2.0`
+- [x] **1 day** - `Dio` , `Navigator 2.0`
 - [ ] **2 day** - `go_router` , `Beamer`
 
 ### Utils
