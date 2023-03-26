@@ -13,7 +13,6 @@ class TraderPreviewLocation extends BeamLocation<BeamState> {
         BeamPage(
           key: ValueKey(info.name),
           child: TraderPreviewPage(traderInfo: info),
-          onPopPage: (_, __, ___, ____) => true,
         ),
     ];
   }

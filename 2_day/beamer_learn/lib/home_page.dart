@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
               child: _TraderInputCard(
                 showTrader: () {
                   var info = Provider.of<TraderInfo>(buildContext, listen: false);
-                  context.beamTo(TraderPreviewLocation(), data: info);
+                  context.beamToNamed("/preview", data: info);
                 },
               ),
             ),
