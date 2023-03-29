@@ -1,0 +1,24 @@
+name: hive_learn
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.0-348.0.dev <4.0.0'
+
+dependencies:
+  dio: ^5.1.0
+  flutter:
+    sdk: flutter
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+dev_dependencies:
+  build_runner: ^2.3.3
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+  hive_generator: ^2.0.0
+
+flutter:
+  uses-material-design: true
