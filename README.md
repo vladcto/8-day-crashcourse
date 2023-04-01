@@ -9,16 +9,16 @@ In this course i want to learn 14 **Flutter** packages in 8 day to expand my kno
 - [x] **2 day** - `go_router` , `Beamer`
 
 ### Utils
-- [ ] **3 day** - `freezed` , `hive` , `intl`
+- [x] **3 day** - `freezed` , `hive` , `intl`
 
 ### State managment
-- [ ] **4 day** - `riverpod`
-- [ ] **5 day** - `bloc`
-- [ ] **6 day** - `get`
+- [x] **4 day** - `riverpod`
+- [x] **5 day** - `bloc`
 
 ### Animations and develop
-- [ ] **7 day** - `get_it` , `animation_widgets`
-- [ ] **8 day** - `animations`, `mockito`  
+- [ ] **6 day** - `get_it`
+- [ ] **7 day** - `animation_widgets`, `animations` 
+- [ ] **8 day** - `mockito`  
 
 ### Aditions:
 
