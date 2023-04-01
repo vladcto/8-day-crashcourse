@@ -1,0 +1,13 @@
+{
+	"appBar": "Локализация",
+	"helloWorld": "Привет мир",
+	"counter": "{count, plural, =0{Нет числа} =1{Вы только что ввели 1} other{{count} раз нажали кнопку}}!",
+	"@counter": {
+		"placeholders": {
+			"count": {
+				"type": "num",
+				"format": "compact"
+			}
+		}
+	}
+}

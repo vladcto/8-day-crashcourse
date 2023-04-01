@@ -1,0 +1,16 @@
+{
+	"appBar" : "Localization",
+	"helloWorld": "Hello World!",
+	"@helloWorld": {
+		"description": "The conventional newborn programmer greeting"
+	},
+	"counter": "{count, plural, =0{No clicks} =1{You just enter 1} other{{count} clicks}}!",
+	"@counter": {
+		"placeholders": {
+			"count": {
+				"type": "num",
+				"format": "compact"
+			}
+		}
+	}
+}
