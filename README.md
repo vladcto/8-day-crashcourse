@@ -16,9 +16,9 @@ In this course i want to learn 14 **Flutter** packages in 8 day to expand my kno
 - [x] **5 day** - `bloc`
 
 ### Animations and develop
-- [ ] **6 day** - `get_it`
-- [ ] **7 day** - `animation_widgets`, `animations` 
-- [ ] **8 day** - `mockito`  
+- [x] **6 day** - `get_it`
+- [x] **7 day** - `animation_widgets`, `animations` 
+- [x] **8 day** - `mockito`  
 
 ### Aditions:
 
